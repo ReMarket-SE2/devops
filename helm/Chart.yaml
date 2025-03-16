@@ -1,0 +1,13 @@
+apiVersion: v2
+name: remarket
+description: A Helm chart for Remarket application
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - remarket
+home: https://github.com/ReMarket-SE2/devops/tree/master/helm/webapp
+dependencies:
+  - name: ingress-nginx
+    repository: https://kubernetes.github.io/ingress-nginx
+    version: "4.12.0"

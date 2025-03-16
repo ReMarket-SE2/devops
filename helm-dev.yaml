@@ -1,0 +1,3 @@
+webapp:
+  ingress:
+    host: localhost
