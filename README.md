@@ -53,8 +53,10 @@ To deploy the application locally, follow these steps:
     ### Local kubernetes (ex. Docker desktop)
 
     ```
-    kubectl port-forward --namespace=remarket service/remarket-ingress-nginx-controller 80:80
+    kubectl port-forward --namespace=remarket service/remarket-ingress-nginx-controller 3000:80
     ```
+
+    The app is now available at `http://localhost:3000`.
 
 5.  **Delete aplication:**
     To uninstall remarket simply run:
