@@ -11,6 +11,9 @@ webapp:
     env:
       google_client_id: ""
       google_client_secret: ""
+      jwt_secret: ""
+      secret: ""
+      nextauth_secret: ""
   service:
     type: LoadBalancer
     port: 80
