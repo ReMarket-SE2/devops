@@ -1,0 +1,61 @@
+name: Build Image
+
+on:
+  workflow_call:
+    inputs:
+      repository:
+        type: string
+        required: true
+      branch:
+        type: string
+        required: true
+      dockerfile-path:
+        type: string
+        required: true
+      image-name:
+        type: string
+        required: true
+      image-tag:
+        type: string
+        required: true
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Backend
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.repository }}
+        path: build-repo
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v1
+      with:
+        token_format: access_token
+        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+    - name: Login to Google Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: gcr.io
+        username: oauth2accesstoken
+        password: ${{ steps.auth.outputs.access_token }}
+
+    - name: Build and push docker image
+      uses: docker/build-push-action@v6
+      with:
+        file: build-repo/${{ inputs.dockerfile-path }}
+        context: build-repo
+        push: true
+        tags: gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/${{ inputs.image-name }}:${{ inputs.image-tag }}
+        cache-from: type=registry,ref=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/${{ inputs.image-name }}:${{ inputs.image-tag }}
+        cache-to: type=inline

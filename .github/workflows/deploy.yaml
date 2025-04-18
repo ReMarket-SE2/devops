@@ -1,0 +1,19 @@
+name: Provisioning
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-backend:
+    name: Build backend
+    uses: ./.github/workflows/build.yaml
+    with:
+      repository: TyroML/backend
+      branch: master
+      dockerfile-path: docker
+      image-name: webapp
+      image-tag: '1.0'
+    secrets: inherit
