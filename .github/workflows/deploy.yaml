@@ -8,11 +8,11 @@ permissions:
   contents: read
 
 jobs:
-  build-backend:
-    name: Build backend
+  build-webapp:
+    name: Build webapp
     uses: ./.github/workflows/build.yaml
     with:
-      repository: TyroML/backend
+      repository: ReMarket-SE2/webapp
       branch: master
       dockerfile-path: docker
       image-name: webapp
