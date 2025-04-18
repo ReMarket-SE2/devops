@@ -15,7 +15,7 @@ jobs:
     with:
       repository: ReMarket-SE2/webapp
       branch: master
-      dockerfile-path: docker
+      dockerfile-path: docker/Dockerfile
       image-name: webapp
       image-tag: '1.0'
     secrets: inherit
