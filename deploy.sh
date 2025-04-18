@@ -2,6 +2,12 @@
 
 set -e  # Exit on any error
 
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+else
+    echo ".env file is missing, app may fail to start"
+fi
+
 ENV=${1:-dev}
 
 # Define namespaces
@@ -22,9 +28,22 @@ helm_release_exists() {
     helm list -n "$1" | grep "$2" > /dev/null 2>&1
 }
 
-# Step 1: Deploy application using Helm
+echo "Builing dependencies"
+
+cd helm && helm dependency build && cd ..
+
 echo "Deploying application..."
-helm upgrade --install $APP_RELEASE ./helm --namespace $NAMESPACE_APP --create-namespace -f "$HELM_VALUES"
+
+helm upgrade \
+    --install \
+    $APP_RELEASE \
+    ./helm \
+    --namespace $NAMESPACE_APP \
+    --create-namespace \
+    -f "$HELM_VALUES" \
+    --set webapp.containers.env.google_client_id="$GOOGLE_CLIENT_ID" \
+    --set webapp.containers.env.google_client_secret="$GOOGLE_CLIENT_SECRET"
+
 
 # Step 2: Get Ingress details
 echo "Checking Ingress..."

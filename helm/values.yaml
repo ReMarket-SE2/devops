@@ -1,13 +1,16 @@
 webapp:
-  replicaCount: 2
+  replicaCount: 1
   name: webapp
   group: webapp
-  container:
+  containers:
     image:
-      name: remarket/webapp
+      name: ghcr.io/remarket-se2/webapp
       pullPolicy: IfNotPresent
       tag: latest
     port: 3000
+    env:
+      google_client_id: ""
+      google_client_secret: ""
   service:
     type: LoadBalancer
     port: 80
@@ -17,6 +20,7 @@ webapp:
   ingress:
     className: nginx
     host: webapp.local
+
 
 
 database:
