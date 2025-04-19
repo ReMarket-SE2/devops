@@ -11,7 +11,11 @@ on:
         options:
           - Create
           - Destroy
+<<<<<<< HEAD
 
+=======
+  push:
+>>>>>>> b45d1ea (feat: provision workflow)
 jobs:
   terraform:
     name: 'Provisioning cluster'
@@ -28,6 +32,10 @@ jobs:
         cd infrastructure
         terraform init
       env:
+<<<<<<< HEAD
+=======
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+>>>>>>> b45d1ea (feat: provision workflow)
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
@@ -37,6 +45,10 @@ jobs:
         cd infrastructure
         terraform plan
       env:
+<<<<<<< HEAD
+=======
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+>>>>>>> b45d1ea (feat: provision workflow)
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
@@ -47,6 +59,10 @@ jobs:
         cd infrastructure
         terraform apply -auto-approve -lock=false
       env:
+<<<<<<< HEAD
+=======
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+>>>>>>> b45d1ea (feat: provision workflow)
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
@@ -57,6 +73,10 @@ jobs:
         cd infrastructure
         terraform destroy -auto-approve -lock=false
       env:
+<<<<<<< HEAD
+=======
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+>>>>>>> b45d1ea (feat: provision workflow)
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
