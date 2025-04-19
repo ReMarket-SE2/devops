@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.webapp.name}}
+  name: {{ .Values.webapp.name }}
   labels:
     app: {{ .Values.webapp.name }}
     group: {{ .Values.webapp.group }}
@@ -18,9 +18,22 @@ spec:
     spec:
       containers:
         - name: {{ .Values.webapp.name }}
-          image: "{{ .Values.webapp.container.image.name}}:{{ .Values.webapp.container.image.tag }}"
-          imagePullPolicy: {{ .Values.webapp.container.image.pullPolicy }}
+          image: "{{ .Values.webapp.containers.image.name}}:{{ .Values.webapp.containers.image.tag }}"
+          imagePullPolicy: {{ .Values.webapp.containers.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.webapp.container.port }}
+              containerPort: {{ .Values.webapp.containers.port }}
               protocol: TCP
+          env:
+            - name: GOOGLE_CLIENT_ID
+              value: {{ .Values.webapp.containers.env.google_client_id }}
+            - name: GOOGLE_CLIENT_SECRET
+              value: {{ .Values.webapp.containers.env.google_client_secret }}
+            - name: JWT_SECRET
+              value: {{ .Values.webapp.containers.env.jwt_secret }}
+            - name: SECRET
+              value: {{ .Values.webapp.containers.env.secret }}
+            - name: NEXTAUTH_SECRET
+              value: {{ .Values.webapp.containers.env.nextauth_secret }}
+            - name: DATABASE_URL
+              value: "postgresql://{{ .Values.database.container.env.POSTGRES_USER}}:{{ .Values.database.container.env.POSTGRES_PASSWORD}}@{{ .Values.database.name}}:{{ .Values.database.container.port}}/{{ .Values.database.container.env.POSTGRES_DB }}"

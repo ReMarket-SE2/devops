@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: {{ .Values.database.name }}
 spec:
+  type: ClusterIP
   ports:
-    - port: {{ .Values.database.container.port }}
+    - protocol: TCP
+      port: {{ .Values.database.container.port }}
       targetPort: {{ .Values.database.container.port }}
   selector:
     app: {{ .Values.database.name }}
-  clusterIP: None

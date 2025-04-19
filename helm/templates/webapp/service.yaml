@@ -10,5 +10,5 @@ spec:
     app: {{ .Values.webapp.name }}
   ports:
     - port: {{ .Values.webapp.service.port }}
-      targetPort: {{ .Values.webapp.container.port }}
+      targetPort: {{ .Values.webapp.containers.port }}
       protocol: TCP

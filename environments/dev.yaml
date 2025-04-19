@@ -1,3 +1,9 @@
 webapp:
   ingress:
     host: localhost
+
+  containers:
+    env:
+      jwt_secret: secret
+      secret: secret
+      nextauth_secret: secret
