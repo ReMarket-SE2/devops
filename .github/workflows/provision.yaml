@@ -12,6 +12,10 @@ on:
           - Create
           - Destroy
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   terraform:
     name: 'Provisioning cluster'
