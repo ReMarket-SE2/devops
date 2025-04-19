@@ -14,7 +14,7 @@ resource "google_container_cluster" "primary" {
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.private.name
   node_config {
-    machine_type = var.node_size
+    machine_type = var.machine_type
     disk_size_gb = 20
   }
 }
