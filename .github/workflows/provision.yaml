@@ -23,11 +23,20 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        token_format: access_token
+        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
     - name: Terraform Init
       run: |
         cd infrastructure
         terraform init
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
@@ -40,6 +49,7 @@ jobs:
         cd infrastructure
         terraform plan
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
@@ -53,6 +63,7 @@ jobs:
         cd infrastructure
         terraform apply -auto-approve -lock=false
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
@@ -66,6 +77,7 @@ jobs:
         cd infrastructure
         terraform destroy -auto-approve -lock=false
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
