@@ -33,7 +33,7 @@ jobs:
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
         TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
         TF_VAR_node_count: 1
-        TF_VAR_node_machine_type: e2-micro
+        TF_VAR_machine_type: e2-micro
 
     - name: Terraform Plan
       run: |
@@ -45,7 +45,7 @@ jobs:
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
         TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
         TF_VAR_node_count: 1
-        TF_VAR_node_machine_type: e2-micro
+        TF_VAR_machine_type: e2-micro
 
     - name: Terraform Apply
       if: github.event.inputs.mode == 'Create'
@@ -58,7 +58,7 @@ jobs:
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
         TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
         TF_VAR_node_count: 1
-        TF_VAR_node_machine_type: e2-micro
+        TF_VAR_machine_type: e2-micro
 
     - name: Terraform Destroy
       if: github.event.inputs.mode != 'Create'
@@ -71,4 +71,4 @@ jobs:
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
         TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
         TF_VAR_node_count: 1
-        TF_VAR_node_machine_type: e2-micro
+        TF_VAR_machine_type: e2-micro
