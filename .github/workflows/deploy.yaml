@@ -1,0 +1,52 @@
+name: Deploy to GKE
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+
+      - name: Get GKE credentials
+        id : 'get-credentials'
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: '${{ secrets.GOOGLE_PROJECT_ID}}-gke'
+          location: ${{ secrets.GOOGLE_ZONE }}
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Deploy
+        run: |
+          helm dependency build ./helm
+          helm dependency update ./helm
+          helm upgrade remarket ./helm \
+            --install \
+            --atomic \
+            --namespace remarket \
+            -- create-namespace \
+            --set webapp.containers.env.google_client_id=${{ secrets.GOOGLE_CLIENT_ID }} \
+            --set webapp.containers.env.google_client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+            --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            --set database.container.env.POSTGRES_PASSWORD =${{ secrets.POSTGRES_PASSWORD }} \
+            --set database.container.env.POSTGRES_DB =${{ secrets.POSTGRES_DB }} \
+            --set webapp.containers.env.jwt_secret=${{ secrets.JWT_SECRET }} \
+            --set webapp.containers.env.secret=${{ secrets.SECRET }} \
+            --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }}
