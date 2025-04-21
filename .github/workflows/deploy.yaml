@@ -48,7 +48,7 @@ jobs:
             --install \
             --atomic \
             --namespace remarket \
-            -- create-namespace \
+            --create-namespace \
             --set webapp.containers.env.google_client_id=${{ secrets.GOOGLE_CLIENT_ID }} \
             --set webapp.containers.env.google_client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }} \
             --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
