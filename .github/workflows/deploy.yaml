@@ -24,7 +24,7 @@ jobs:
           service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Get GKE credentials
         id : 'get-credentials'
@@ -39,6 +39,9 @@ jobs:
 
       - name: Deploy
         run: |
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
           helm dependency build ./helm
           helm dependency update ./helm
           helm upgrade remarket ./helm \
