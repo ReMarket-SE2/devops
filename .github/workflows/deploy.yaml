@@ -2,7 +2,6 @@ name: Deploy to GKE
 
 on:
   workflow_call:
-  push:
 
 permissions:
   id-token: write
