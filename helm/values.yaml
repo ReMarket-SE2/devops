@@ -15,7 +15,7 @@ webapp:
       secret: ""
       nextauth_secret: ""
   service:
-    type: LoadBalancer
+    type: ClusterIP
     port: 80
   config:
     name: webapp-config
@@ -42,3 +42,7 @@ database:
   storage:
     size: 5Gi
     accessModes: ["ReadWriteOnce"]
+
+controller:
+  service:
+    loadBalancerIP: ""
