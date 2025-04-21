@@ -46,8 +46,7 @@ jobs:
 
       - name: Deploy
         run: |
-          helm dependency build ./helm
-          helm dependency update ./helm
+          helm dependency build ./helm &&
           helm upgrade remarket ./helm \
             --install \
             --atomic \
