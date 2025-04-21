@@ -48,6 +48,7 @@ jobs:
         run: |
           helm dependency build ./helm &&
           helm upgrade remarket ./helm \
+            --timeout 10m \
             --install \
             --atomic \
             --namespace remarket \
