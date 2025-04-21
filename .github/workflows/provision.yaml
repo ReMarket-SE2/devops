@@ -62,6 +62,7 @@ jobs:
         TF_VAR_machine_type: e2-micro
 
     - name: Terraform Apply
+      id: apply
       if: github.event.inputs.mode == 'Create'
       run: |
         cd infrastructure
@@ -88,3 +89,10 @@ jobs:
         TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
         TF_VAR_node_count: 1
         TF_VAR_machine_type: e2-micro
+
+  k8s-deploy:
+    name: 'Deploy to GKE'
+    needs: terraform
+    if : github.event.inputs.mode == 'Create'
+    uses: ./.github/workflows/deploy.yaml
+    secrets: inherit

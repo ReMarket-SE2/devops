@@ -43,7 +43,5 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     metadata = {
       disable-legacy-endpoints = "true"
     }
-
-    subnetwork = google_compute_subnetwork.public.self_link
   }
 }
