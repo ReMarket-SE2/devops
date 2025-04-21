@@ -4,6 +4,9 @@ on:
   workflow_call:
   push:
 
+permissions:
+  id-token: write
+
 jobs:
   build:
     name: Deploy
