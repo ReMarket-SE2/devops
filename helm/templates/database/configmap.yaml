@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-init-scripts
+data:
+  init-extensions.sql: |
+    CREATE EXTENSION IF NOT EXISTS "fuzzystrmatch";

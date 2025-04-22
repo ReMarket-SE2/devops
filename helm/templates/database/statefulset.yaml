@@ -27,6 +27,17 @@ spec:
               value: "{{ .Values.database.container.env.POSTGRES_PASSWORD }}"
             - name: POSTGRES_DB
               value: "{{ .Values.database.container.env.POSTGRES_DB }}"
+          volumeMounts:
+            - name: init-script
+              mountPath: "/docker-entrypoint-initdb.d"
+              readOnly: true
+      volumes:
+        - name: init-script
+          configMap:
+            name: db-init-scripts
+            items:
+            - key: "init-extensions.sql"
+              path: "init-extensions.sql"
   volumeClaimTemplates:
     - metadata:
         name: "{{ .Values.database.name}}-storage"
