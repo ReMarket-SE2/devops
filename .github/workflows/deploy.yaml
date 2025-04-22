@@ -61,5 +61,5 @@ jobs:
             --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
             --set webapp.containers.env.jwt_secret=${{ secrets.JWT_SECRET }} \
             --set webapp.containers.env.secret=${{ secrets.SECRET }} \
-            --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }}
+            --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }} \
             --set ingress-nginx.controller.service.loadBalancerIP=${{ secrets.STATIC_IP }} \
