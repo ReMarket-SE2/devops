@@ -5,7 +5,7 @@ data "google_container_engine_versions" "gke_version" {
 
 resource "google_container_cluster" "primary" {
   name     = "${var.project_id}-gke"
-  location = var.zone
+  location = var.region
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -21,7 +21,7 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name     = google_container_cluster.primary.name
-  location = var.zone
+  location = var.region
   cluster  = google_container_cluster.primary.name
 
   version    = data.google_container_engine_versions.gke_version.release_channel_default_version["STABLE"]
@@ -39,6 +39,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
     preemptible  = true
     machine_type = "n1-standard-1"
+    disk_size_gb = 20
     tags         = ["gke-node", "${var.project_id}-gke"]
     metadata = {
       disable-legacy-endpoints = "true"

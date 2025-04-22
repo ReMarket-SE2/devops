@@ -3,7 +3,6 @@ name: Deploy to GKE
 on:
   workflow_call:
   workflow_dispatch:
-  push:
 
 
 permissions:
@@ -63,4 +62,4 @@ jobs:
             --set webapp.containers.env.jwt_secret=${{ secrets.JWT_SECRET }} \
             --set webapp.containers.env.secret=${{ secrets.SECRET }} \
             --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }}
-            --set controller.service.loadBalancerIP=${{ secrets.STATIC_IP }} \
+            --set ingress-nginx.controller.service.loadBalancerIP=${{ secrets.STATIC_IP }} \
