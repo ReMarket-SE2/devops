@@ -22,7 +22,7 @@ webapp:
     data:
   ingress:
     className: nginx
-    host: webapp.local
+    host: remarket-se2.xyz
 
 
 
@@ -43,6 +43,8 @@ database:
     size: 5Gi
     accessModes: ["ReadWriteOnce"]
 
-controller:
-  service:
-    loadBalancerIP: ""
+ingress-nginx:
+  controller:
+    service:
+      type: LoadBalancer
+      loadBalancerIP: ""
