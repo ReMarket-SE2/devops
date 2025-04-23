@@ -12,6 +12,10 @@ on:
           - Create
           - Destroy
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   terraform:
     name: 'Provisioning cluster'
@@ -23,33 +27,54 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        token_format: access_token
+        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
     - name: Terraform Init
       run: |
         cd infrastructure
         terraform init
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
+        TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
+        TF_VAR_node_count: 1
+        TF_VAR_machine_type: e2-micro
 
     - name: Terraform Plan
       run: |
         cd infrastructure
         terraform plan
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
+        TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
+        TF_VAR_node_count: 1
+        TF_VAR_machine_type: e2-micro
 
     - name: Terraform Apply
+      id: apply
       if: github.event.inputs.mode == 'Create'
       run: |
         cd infrastructure
         terraform apply -auto-approve -lock=false
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
+        TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
+        TF_VAR_node_count: 1
+        TF_VAR_machine_type: e2-micro
 
     - name: Terraform Destroy
       if: github.event.inputs.mode != 'Create'
@@ -57,6 +82,17 @@ jobs:
         cd infrastructure
         terraform destroy -auto-approve -lock=false
       env:
+        GOOGLE_OAUTH_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         TF_VAR_region: ${{ secrets.GOOGLE_REGION }}
         TF_VAR_zone: ${{ secrets.GOOGLE_ZONE }}
+        TF_VAR_name: ${{ secrets.CLUSTER_NAME }}
+        TF_VAR_node_count: 1
+        TF_VAR_machine_type: e2-micro
+
+  k8s-deploy:
+    name: 'Deploy to GKE'
+    needs: terraform
+    if : github.event.inputs.mode == 'Create'
+    uses: ./.github/workflows/deploy.yaml
+    secrets: inherit

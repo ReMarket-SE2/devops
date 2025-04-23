@@ -23,7 +23,7 @@ variable "node_count" {
   type        = number
 }
 
-variable "node_size" {
-  description = "A size of a kubernetes node."
+variable "machine_type" {
+  description = "A machine type for kubernetes nodes."
   type        = string
 }
