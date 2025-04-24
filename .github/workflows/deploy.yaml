@@ -49,9 +49,7 @@ jobs:
         run: |
           helm dependency build ./helm &&
           helm upgrade remarket ./helm \
-            --timeout 10m \
             --install \
-            --atomic \
             --namespace remarket \
             --create-namespace \
             --set webapp.containers.env.google_client_id=${{ secrets.GOOGLE_CLIENT_ID }} \
