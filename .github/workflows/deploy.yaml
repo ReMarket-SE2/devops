@@ -54,10 +54,9 @@ jobs:
             --create-namespace \
             --set webapp.containers.env.google_client_id=${{ secrets.GOOGLE_CLIENT_ID }} \
             --set webapp.containers.env.google_client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-            --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
-            --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-            --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
             --set webapp.containers.env.jwt_secret=${{ secrets.JWT_SECRET }} \
             --set webapp.containers.env.secret=${{ secrets.SECRET }} \
             --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }} \
-            --set ingress-nginx.controller.service.loadBalancerIP=${{ secrets.STATIC_IP }} \
+            --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+            --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }}

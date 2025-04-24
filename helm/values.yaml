@@ -47,4 +47,4 @@ ingress-nginx:
   controller:
     service:
       type: LoadBalancer
-      loadBalancerIP: ""
+      loadBalancerIP: "34.118.105.194"
