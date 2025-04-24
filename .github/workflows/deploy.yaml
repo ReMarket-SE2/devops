@@ -32,7 +32,7 @@ jobs:
         uses: 'google-github-actions/get-gke-credentials@v2'
         with:
           cluster_name: '${{ secrets.GOOGLE_PROJECT_ID}}-gke'
-          location: ${{ secrets.GOOGLE_ZONE }}
+          location: ${{ secrets.GOOGLE_REGION }}
 
       - name: Install Helm
         run: |
