@@ -14,6 +14,8 @@ webapp:
       jwt_secret: ""
       secret: ""
       nextauth_secret: ""
+      next_public_app_url: ""
+      nextauth_url: ""
   service:
     type: ClusterIP
     port: 80

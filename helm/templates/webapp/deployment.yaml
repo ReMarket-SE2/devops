@@ -37,3 +37,7 @@ spec:
               value: {{ .Values.webapp.containers.env.nextauth_secret }}
             - name: DATABASE_URL
               value: "postgresql://{{ .Values.database.container.env.POSTGRES_USER}}:{{ .Values.database.container.env.POSTGRES_PASSWORD}}@{{ .Values.database.name}}:{{ .Values.database.container.port}}/{{ .Values.database.container.env.POSTGRES_DB }}"
+            - name: NEXTAUTH_URL
+              value: {{ .Values.webapp.containers.env.nextauth_url }}
+            - name: NEXT_PUBLIC_APP_URL
+              Value: {{ .Values.webapp.containers.env.next_public_app_url }}
