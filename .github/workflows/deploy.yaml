@@ -74,3 +74,8 @@ jobs:
             --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
             --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
             --set issuer.enabled=true
+<<<<<<< HEAD
+=======
+
+          echo Done
+>>>>>>> 7022ae1 (feat: enable grafana)

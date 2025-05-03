@@ -1,6 +1,6 @@
 webapp:
   ingress:
-    host: remarket-dev.xyz
+    host: localhost
 
   containers:
     env:
