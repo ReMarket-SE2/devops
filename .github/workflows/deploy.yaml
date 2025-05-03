@@ -58,7 +58,7 @@ jobs:
 
       - name: Debug workflow file
         run: |
-          cat .github/workflows/deploy.yml
+          cat .github/workflows/deploy.yaml
 
       - name: Deploy
         run: |
