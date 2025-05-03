@@ -55,7 +55,9 @@ jobs:
             --create-namespace \
             --version v1.17.0 \
             --set crds.enabled=true
-
+      - name: Debug workflow file
+        run: |
+          cat ${GITHUB_WORKSPACE}/.github/workflows/deploy.yml
       - name: Deploy
         run: |
           helm dependency build ./helm &&
@@ -69,7 +71,6 @@ jobs:
             --set webapp.containers.env.secret=${{ secrets.SECRET }} \
             --set webapp.containers.env.next_public_app_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
             --set webapp.containers.env.nextauth_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
-            --set webapp.containers.env.secret=${{ secrets.SECRET }} \
             --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }} \
             --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
             --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
