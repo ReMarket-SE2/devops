@@ -50,3 +50,7 @@ ingress-nginx:
     service:
       type: LoadBalancer
       loadBalancerIP: "34.118.105.194"
+
+kube-prometheus-stack:
+  nodeExporter:
+    enabled: false

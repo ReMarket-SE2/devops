@@ -23,14 +23,18 @@ NGINX_REPO="https://kubernetes.github.io/ingress-nginx"
 
 HELM_VALUES="./environments/${ENV}.yaml"
 
-# Function to check if Helm release exists
-helm_release_exists() {
-    helm list -n "$1" | grep "$2" > /dev/null 2>&1
-}
-
 echo "Builing dependencies"
 
 cd helm && helm dependency build && cd ..
+
+echo "Installing cert-manager CRDs..."
+helm upgrade \
+  --install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.17.0 \
+  --set crds.enabled=true
 
 echo "Deploying application..."
 

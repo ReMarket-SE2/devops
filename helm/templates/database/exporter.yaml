@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  template:
+    metadata:
+      labels:
+        app: postgres-exporter
+    spec:
+      containers:
+        - name: postgres-exporter
+          image: quay.io/prometheuscommunity/postgres-exporter
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9187
+          env:
+            - name: DATA_SOURCE_URI
+              value: "{{ .Values.database.name }}:{{ .Values.database.container.port }}/{{ .Values.database.container.env.POSTGRES_DB }}?sslmode=disable"
+            - name: DATA_SOURCE_USER
+              value: {{ .Values.database.container.env.POSTGRES_USER }}
+            - name: DATA_SOURCE_PASS
+              value: {{ .Values.database.container.env.POSTGRES_PASSWORD }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-exporter
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 9187
+      targetPort: 9187
+  selector:
+    app: postgres-exporter
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: postgres-exporter
+  labels:
+    release: remarket
+spec:
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  endpoints:
+    - port: http
+      interval: 15s
+      path: /metrics
