@@ -55,9 +55,11 @@ jobs:
             --create-namespace \
             --version v1.17.0 \
             --set crds.enabled=true
+
       - name: Debug workflow file
         run: |
-          cat ${GITHUB_WORKSPACE}/.github/workflows/deploy.yml
+          cat .github/workflows/deploy.yml
+
       - name: Deploy
         run: |
           helm dependency build ./helm &&
