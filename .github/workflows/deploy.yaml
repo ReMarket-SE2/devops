@@ -72,6 +72,7 @@ jobs:
             --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }} \
             --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
             --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-            --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+            --set issuer.enabled=true
 
           echo Done
