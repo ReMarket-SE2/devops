@@ -2,20 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.webapp.name }}
-  {{- if .Values.issuer.enabled }}
   annotations:
     cert-manager.io/issuer: "letsencrypt-prod"
-  {{- end }}
 spec:
   ingressClassName: {{ .Values.webapp.ingress.className }}
-
-  {{- if .Values.issuer.enabled }}
   tls:
     - hosts:
       - {{ .Values.webapp.ingress.host }}
       secretName: tls-secret
-  {{- end }}
-
   rules:
     - host: {{ .Values.webapp.ingress.host }}
       http:
@@ -34,6 +28,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Release.Name }}-grafana
+                name: "{{ .Release.Name }}-grafana"
                 port:
                   number: {{ .Values.webapp.service.port }}
