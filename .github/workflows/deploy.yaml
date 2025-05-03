@@ -45,6 +45,16 @@ jobs:
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
           helm repo update
 
+      - name: Install Cert-Manager
+        run: |
+          helm upgrade \
+            --install \
+            cert-manager jetstack/cert-manager \
+            --namespace cert-manager \
+            --create-namespace \
+            --version v1.17.0 \
+            --set crds.enabled=true
+
       - name: Deploy
         run: |
           helm dependency build ./helm &&
