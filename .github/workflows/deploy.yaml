@@ -56,10 +56,6 @@ jobs:
             --version v1.17.0 \
             --set crds.enabled=true
 
-      - name: Debug workflow file
-        run: |
-          cat .github/workflows/deploy.yaml
-
       - name: Deploy
         run: |
           helm dependency build ./helm &&
@@ -78,5 +74,3 @@ jobs:
             --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
             --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
             --set issuer.enabled=true
-
-          echo Done
