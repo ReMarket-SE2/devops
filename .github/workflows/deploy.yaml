@@ -43,7 +43,18 @@ jobs:
         run: |
           helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo add jetstack https://charts.jetstack.io
           helm repo update
+
+      - name: Install Cert-Manager
+        run: |
+          helm upgrade \
+            --install \
+            cert-manager jetstack/cert-manager \
+            --namespace cert-manager \
+            --create-namespace \
+            --version v1.17.0 \
+            --set crds.enabled=true
 
       - name: Deploy
         run: |
@@ -58,8 +69,10 @@ jobs:
             --set webapp.containers.env.secret=${{ secrets.SECRET }} \
             --set webapp.containers.env.next_public_app_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
             --set webapp.containers.env.nextauth_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
-            --set webapp.containers.env.secret=${{ secrets.SECRET }} \
             --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }} \
             --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
             --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-            --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+            --set issuer.enabled=true
+
+          echo Done

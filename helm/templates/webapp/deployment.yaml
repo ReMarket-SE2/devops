@@ -40,4 +40,4 @@ spec:
             - name: NEXTAUTH_URL
               value: {{ .Values.webapp.containers.env.nextauth_url }}
             - name: NEXT_PUBLIC_APP_URL
-              Value: {{ .Values.webapp.containers.env.next_public_app_url }}
+              value: {{ .Values.webapp.containers.env.next_public_app_url }}
