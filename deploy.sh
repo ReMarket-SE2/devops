@@ -25,7 +25,7 @@ HELM_VALUES="./environments/${ENV}.yaml"
 
 echo "Builing dependencies"
 
-cd helm && helm dependency build && cd ..
+cd helm && helm dependency build && helm repo update && cd ..
 
 echo "Installing cert-manager CRDs..."
 helm upgrade \
@@ -36,8 +36,8 @@ helm upgrade \
   --version v1.17.0 \
   --set crds.enabled=true
 
-echo "Deploying application..."
 
+echo "Deploying application..."
 helm upgrade \
     --install \
     $APP_RELEASE \
