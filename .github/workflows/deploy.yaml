@@ -70,12 +70,9 @@ jobs:
             --set webapp.containers.env.next_public_app_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
             --set webapp.containers.env.nextauth_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
             --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }} \
+            --set webapp.containers.env.stripe_secret_key=${{ secrets.STRIPE_SECRET_KEY }} \
+            --set webapp.containers.env.stripe_webhook_secret=${{ secrets.STRIPE_WEBHOOK_SECRET }} \
             --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
             --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
             --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
             --set issuer.enabled=true
-<<<<<<< HEAD
-=======
-
-          echo Done
->>>>>>> 7022ae1 (feat: enable grafana)
