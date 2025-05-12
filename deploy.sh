@@ -25,7 +25,7 @@ HELM_VALUES="./environments/${ENV}.yaml"
 
 echo "Builing dependencies"
 
-cd helm && helm dependency build && cd ..
+cd helm && helm dependency build && helm repo update && cd ..
 
 echo "Installing cert-manager CRDs..."
 helm upgrade \
@@ -36,8 +36,8 @@ helm upgrade \
   --version v1.17.0 \
   --set crds.enabled=true
 
-echo "Deploying application..."
 
+echo "Deploying application..."
 helm upgrade \
     --install \
     $APP_RELEASE \
@@ -46,7 +46,8 @@ helm upgrade \
     --create-namespace \
     -f "$HELM_VALUES" \
     --set webapp.containers.env.google_client_id="$GOOGLE_CLIENT_ID" \
-    --set webapp.containers.env.google_client_secret="$GOOGLE_CLIENT_SECRET"
+    --set webapp.containers.env.google_client_secret="$GOOGLE_CLIENT_SECRET" \
+    --set issuer.enabled=false
 
 
 # Step 2: Get Ingress details

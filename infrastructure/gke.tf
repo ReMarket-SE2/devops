@@ -17,6 +17,9 @@ resource "google_container_cluster" "primary" {
     machine_type = var.machine_type
     disk_size_gb = 20
   }
+  monitoring_config {
+    enable_components = SCHEDULER
+  }
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
