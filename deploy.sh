@@ -46,7 +46,8 @@ helm upgrade \
     --create-namespace \
     -f "$HELM_VALUES" \
     --set webapp.containers.env.google_client_id="$GOOGLE_CLIENT_ID" \
-    --set webapp.containers.env.google_client_secret="$GOOGLE_CLIENT_SECRET"
+    --set webapp.containers.env.google_client_secret="$GOOGLE_CLIENT_SECRET" \
+    --set issuer.enabled=false
 
 
 # Step 2: Get Ingress details

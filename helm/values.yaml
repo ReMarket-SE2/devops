@@ -57,10 +57,3 @@ kube-prometheus-stack:
     enabled: false
   grafana:
     defaultDashboardsEnabled: true
-  # kubeScheduler:
-  #   service:
-  #     selector:
-  #       component: kube-scheduler-docker-desktop
-  #   serviceMonitor:
-  #     selector:
-  #       app: kube-prometheus-stack-kube-scheduler

@@ -9,6 +9,7 @@ spec:
   tls:
     - hosts:
       - {{ .Values.webapp.ingress.host }}
+      - "grafana.{{ .Values.webapp.ingress.host }}"
       secretName: tls-secret
   rules:
     - host: {{ .Values.webapp.ingress.host }}
