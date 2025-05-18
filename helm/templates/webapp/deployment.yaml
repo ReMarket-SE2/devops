@@ -43,5 +43,5 @@ spec:
               value: {{ .Values.webapp.containers.env.next_public_app_url }}
             - name: STRIPE_SECRET_KEY
               value: {{ .Values.webapp.containers.env.stripe_secret_key }}
-            - name: STRIPE_WEBHOOK_SESCRET
+            - name: STRIPE_WEBHOOK_SECRET
               value: {{ .Values.webapp.containers.env.stripe_webhook_secret }}
