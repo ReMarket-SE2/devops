@@ -56,7 +56,7 @@ jobs:
             --version v1.17.0 \
             --set crds.enabled=true
 
-      - name: Build dependency
+      - name: Create values.yaml
         run: |
           cat <<EOF > values.yaml
           webapp:
@@ -80,6 +80,10 @@ jobs:
           issuer:
             enabled: true
           EOF
+
+      - name: Build dependency
+        run: |
+          helm dependency build ./helm
 
       - name: Deploy
         run: |
