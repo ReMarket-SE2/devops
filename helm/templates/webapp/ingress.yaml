@@ -6,11 +6,11 @@ metadata:
     cert-manager.io/issuer: "letsencrypt-prod"
 spec:
   ingressClassName: {{ .Values.webapp.ingress.className }}
-  tls:
-    - hosts:
-      - {{ .Values.webapp.ingress.host }}
-      - "grafana.{{ .Values.webapp.ingress.host }}"
-      secretName: tls-secret
+  # tls:
+  #   - hosts:
+  #     - {{ .Values.webapp.ingress.host }}
+  #     - "grafana.{{ .Values.webapp.ingress.host }}"
+  #     secretName: tls-secret
   rules:
     - host: {{ .Values.webapp.ingress.host }}
       http:
