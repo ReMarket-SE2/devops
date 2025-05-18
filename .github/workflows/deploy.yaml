@@ -58,7 +58,28 @@ jobs:
 
       - name: Build dependency
         run: |
-          helm dependency build ./helm
+          cat <<EOF > values.yaml
+          webapp:
+            containers:
+              env:
+                google_client_id: "${{ secrets.GOOGLE_CLIENT_ID }}"
+                google_client_secret: "${{ secrets.GOOGLE_CLIENT_SECRET }}"
+                jwt_secret: "${{ secrets.JWT_SECRET }}"
+                secret: "${{ secrets.SECRET }}"
+                next_public_app_url: "${{ secrets.NEXT_PUBLIC_APP_URL }}"
+                nextauth_url: "${{ secrets.NEXT_PUBLIC_APP_URL }}"
+                nextauth_secret: "${{ secrets.NEXTAUTH_SECRET }}"
+                stripe_secret_key: "${{ secrets.STRIPE_SECRET_KEY }}"
+                stripe_webhook_secret: "${{ secrets.STRIPE_WEBHOOK_SECRET }}"
+          database:
+            container:
+              env:
+                POSTGRES_USER: "${{ secrets.POSTGRES_USER }}"
+                POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
+                POSTGRES_DB: "${{ secrets.POSTGRES_DB }}"
+          issuer:
+            enabled: true
+          EOF
 
       - name: Deploy
         run: |
@@ -66,16 +87,7 @@ jobs:
             --install \
             --namespace remarket \
             --create-namespace \
-            --set webapp.containers.env.google_client_id=${{ secrets.GOOGLE_CLIENT_ID }} \
-            --set webapp.containers.env.google_client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-            --set webapp.containers.env.jwt_secret=${{ secrets.JWT_SECRET }} \
-            --set webapp.containers.env.secret=${{ secrets.SECRET }} \
-            --set webapp.containers.env.next_public_app_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
-            --set webapp.containers.env.nextauth_url=${{ secrets.NEXT_PUBLIC_APP_URL }} \
-            --set webapp.containers.env.nextauth_secret=${{ secrets.NEXTAUTH_SECRET }} \
-            --set webapp.containers.env.stripe_secret_key=${{ secrets.STRIPE_SECRET_KEY }} \
-            --set webapp.containers.env.stripe_webhook_secret=${{ secrets.STRIPE_WEBHOOK_SECRET }} \
-            --set database.container.env.POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
-            --set database.container.env.POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
-            --set database.container.env.POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
-            --set issuer.enabled=true
+            --values values.yaml
+
+      - name: Cleanup values file
+        run: rm values.yaml
