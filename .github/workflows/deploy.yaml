@@ -56,9 +56,12 @@ jobs:
             --version v1.17.0 \
             --set crds.enabled=true
 
-      - name: Deploy
+      - name: Build dependency
         run: |
           helm dependency build ./helm
+
+      - name: Deploy
+        run: |
           helm upgrade remarket ./helm \
             --install \
             --namespace remarket \
