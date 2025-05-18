@@ -58,7 +58,7 @@ jobs:
 
       - name: Deploy
         run: |
-          helm dependency build ./helm &&
+          helm dependency build ./helm
           helm upgrade remarket ./helm \
             --install \
             --namespace remarket \
