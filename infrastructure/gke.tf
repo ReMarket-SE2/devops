@@ -18,7 +18,7 @@ resource "google_container_cluster" "primary" {
     disk_size_gb = 20
   }
   monitoring_config {
-    enable_components = SCHEDULER
+    enable_components = ["SCHEDULER"]
   }
 }
 
