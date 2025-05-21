@@ -31,6 +31,8 @@ spec:
             - name: init-script
               mountPath: "/docker-entrypoint-initdb.d"
               readOnly: true
+            - name: storage
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: init-script
           configMap:
@@ -38,6 +40,10 @@ spec:
             items:
             - key: "init-extensions.sql"
               path: "init-extensions.sql"
+        - name: storage
+          persistentVolumeClaim:
+            claimName: "{{ .Values.database.name}}-storage"
+
   volumeClaimTemplates:
     - metadata:
         name: "{{ .Values.database.name}}-storage"
