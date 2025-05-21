@@ -50,6 +50,7 @@ ingress-nginx:
     service:
       type: LoadBalancer
       loadBalancerIP: "34.118.105.194"
+    progressDeadlineSeconds: 30
 
 issuer:
   enabled: false
