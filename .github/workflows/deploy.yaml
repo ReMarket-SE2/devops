@@ -41,10 +41,11 @@ jobs:
 
       - name: Install repository
         run: |
-          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
           helm repo add jetstack https://charts.jetstack.io
-          helm repo update
+
+      - name: Build dependency
+        run: |
+          helm dependency build ./helm
 
       - name: Install Cert-Manager
         run: |
@@ -78,10 +79,6 @@ jobs:
                 POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
                 POSTGRES_DB: "${{ secrets.POSTGRES_DB }}"
           EOF
-
-      - name: Build dependency
-        run: |
-          helm dependency build ./helm
 
       - name: Deploy
         run: |

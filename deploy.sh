@@ -25,7 +25,7 @@ HELM_VALUES="./environments/${ENV}.yaml"
 
 echo "Builing dependencies"
 
-cd helm && helm dependency build && helm repo update && cd ..
+cd helm && helm dependency build && cd ..
 
 echo "Installing cert-manager CRDs..."
 helm upgrade \
