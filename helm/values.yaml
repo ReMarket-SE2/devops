@@ -6,7 +6,7 @@ webapp:
     image:
       name: ghcr.io/remarket-se2/webapp
       pullPolicy: IfNotPresent
-      tag: 0.27.1
+      tag: latest
     port: 3000
     env:
       google_client_id: ""
