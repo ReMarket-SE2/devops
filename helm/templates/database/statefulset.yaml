@@ -27,10 +27,14 @@ spec:
               value: "{{ .Values.database.container.env.POSTGRES_PASSWORD }}"
             - name: POSTGRES_DB
               value: "{{ .Values.database.container.env.POSTGRES_DB }}"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
             - name: init-script
               mountPath: "/docker-entrypoint-initdb.d"
               readOnly: true
+            - name: storage
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: init-script
           configMap:
@@ -38,11 +42,6 @@ spec:
             items:
             - key: "init-extensions.sql"
               path: "init-extensions.sql"
-  volumeClaimTemplates:
-    - metadata:
-        name: "{{ .Values.database.name}}-storage"
-      spec:
-        accessModes: {{ .Values.database.storage.accessModes }}
-        resources:
-          requests:
-            storage: {{ .Values.database.storage.size }}
+        - name: storage
+          persistentVolumeClaim:
+            claimName: "{{ .Values.database.name}}-storage"

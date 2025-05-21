@@ -5,7 +5,7 @@ webapp:
   containers:
     image:
       name: ghcr.io/remarket-se2/webapp
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: latest
     port: 3000
     env:
@@ -50,6 +50,7 @@ ingress-nginx:
     service:
       type: LoadBalancer
       loadBalancerIP: "34.118.105.194"
+    progressDeadlineSeconds: 30
 
 issuer:
   enabled: false
