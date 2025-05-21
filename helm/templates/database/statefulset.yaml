@@ -43,12 +43,3 @@ spec:
         - name: storage
           persistentVolumeClaim:
             claimName: "{{ .Values.database.name}}-storage"
-
-  volumeClaimTemplates:
-    - metadata:
-        name: "{{ .Values.database.name}}-storage"
-      spec:
-        accessModes: {{ .Values.database.storage.accessModes }}
-        resources:
-          requests:
-            storage: {{ .Values.database.storage.size }}
