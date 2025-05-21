@@ -27,6 +27,8 @@ spec:
               value: "{{ .Values.database.container.env.POSTGRES_PASSWORD }}"
             - name: POSTGRES_DB
               value: "{{ .Values.database.container.env.POSTGRES_DB }}"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
             - name: init-script
               mountPath: "/docker-entrypoint-initdb.d"
