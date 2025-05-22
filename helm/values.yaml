@@ -62,4 +62,4 @@ kube-prometheus-stack:
     defaultDashboardsEnabled: true
   prometheus:
     prometheusSpec:
-      maximumStartupDurationSeconds: 60
+      maximumStartupDurationSeconds: 120
