@@ -60,3 +60,6 @@ kube-prometheus-stack:
     enabled: false
   grafana:
     defaultDashboardsEnabled: true
+  prometheus:
+    prometheusSpec:
+      maximumStartupDurationSeconds: 120
